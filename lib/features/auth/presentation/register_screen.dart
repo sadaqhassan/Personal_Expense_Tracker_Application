@@ -29,7 +29,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
-      await ref.read(authControllerProvider.notifier).signUp(
+      await ref
+          .read(authControllerProvider.notifier)
+          .signUp(
             _emailController.text.trim(),
             _passwordController.text,
             _nameController.text.trim(),
@@ -37,15 +39,19 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
       final authState = ref.read(authControllerProvider);
       if (authState.hasError && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(authState.error.toString())),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(authState.error.toString())));
       } else if (mounted) {
         // Supabase might require email confirmation
         final session = ref.read(authRepositoryProvider).currentUser;
         if (session == null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Success! Please check your email to confirm your account.')),
+            const SnackBar(
+              content: Text(
+                'Success! Please check your email to confirm your account.',
+              ),
+            ),
           );
           Navigator.of(context).pop(); // Go back to login
         } else {
@@ -83,19 +89,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   const Text(
                     'Create Account',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Sign up to get started',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey.shade600,
-                    ),
+                    style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
                   ),
                   const SizedBox(height: 48),
                   CustomTextField(
